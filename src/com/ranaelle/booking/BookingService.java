@@ -1,5 +1,6 @@
 package com.ranaelle.booking;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class BookingService {
@@ -19,13 +20,17 @@ public class BookingService {
         return 1;
     }
 
-    public void generateBookingRef(){
+    public String generateBookingRef(){
+        Booking booking = new Booking();
+
         UUID uuid = UUID.randomUUID();
         String bookingRef = uuid.toString();
+        return bookingRef;
     }
 
-    public void generateBookingDate(){
-
+    public LocalDateTime generateBookingDate(){
+        LocalDateTime bookingDate = LocalDateTime.now();
+       return bookingDate;
     }
 
 

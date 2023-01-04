@@ -2,9 +2,11 @@ package com.ranaelle;
 
 import com.ranaelle.booking.Booking;
 import com.ranaelle.booking.BookingService;
+import com.ranaelle.car.Car;
 import com.ranaelle.car.CarService;
 import com.ranaelle.user.User;
 import com.ranaelle.user.UserService;
+
 
 import java.util.Arrays;
 import java.util.Scanner;
@@ -24,7 +26,7 @@ public class Main {
 
             switch (input) {
                 case 1:
-                    System.out.println("hey");
+                    bookACar();
                     break;
 
                 case 2:
@@ -48,7 +50,7 @@ public class Main {
                     break;
 
                 case 7:
-                    System.out.println(" Thank you for visiting READY VEHICLE!!!");
+                    System.out.println(" Thank you for trusting READY VEHICLE!!!");
                     break;
 
                 default:
@@ -71,6 +73,7 @@ public class Main {
                 "5 - View All Users\n" +
                 "6 - View Receipt\n" +
                 "7 - Exit");
+
     }
 
 
@@ -100,9 +103,10 @@ public class Main {
 
         for (int i = 0; i < bookingService.getAllBookings().length; i++) {
              if (bookingService.getAllBookings()[i] != null &&
-                     bookingService.getAllBookings()[i].getUser().getId() == id ) {
+                     bookingService.getAllBookings()[i].getUser().getId().equals(id) ) {
                 User userBooking = bookingService.getAllBookings()[i].getUser();
                 System.out.println("This user: " + userBooking + "has a car booked ");
+                empty = false;
                 break;
 
             }
@@ -111,7 +115,8 @@ public class Main {
         }
 
         if(empty ) {
-            System.out.println("This user:" + " has no cars booked");
+
+            System.out.println("This user:" + userService.findUser(id) + " has no cars booked");
         }
 
     }
@@ -128,5 +133,47 @@ public class Main {
         if (empty) {
             System.out.println("There is no bookings ☹");
         }
+    }
+
+    public static void bookACar(){
+        Scanner scn2 = new Scanner( System.in);
+        CarService carService = new CarService();
+        UserService userService = new UserService();
+        BookingService bookingService = new BookingService();
+
+        System.out.println();
+        viewAllCars();
+        System.out.println("▶ Select a registration number: ");
+        String regNumber = scn2.nextLine();
+        Car car = carService.findCar(regNumber);
+        System.out.println();
+
+
+        viewAllUsers();
+        System.out.println("▶ Select user id: ");
+        UUID id = UUID.fromString(scn2.nextLine());
+        User user = userService.findUser(id);
+        System.out.println();
+
+
+        System.out.println("How many days are you renting the car for? ");
+        int numOfDays = scn2.nextInt();
+        System.out.println();
+
+        Booking booking = new Booking(numOfDays,
+                                      bookingService.generateBookingDate(),
+                                      car,
+                                      user,
+                                      bookingService.generateBookingRef());
+
+
+
+        bookingService.addBookings(booking);
+
+        System.out.println("🎉 Successfully booked a car 🚗 with reg number " +
+                            regNumber +
+                            " for user " + booking.getUser() +
+                            "Booking ref: " + booking.getReferenceNumber());
+
     }
 }
