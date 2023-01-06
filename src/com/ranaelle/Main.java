@@ -38,7 +38,7 @@ public class Main {
                     break;
 
                 case 4:
-                    viewAllCars();
+                    viewAvailableCars();
                     break;
 
                 case 5:
@@ -77,16 +77,25 @@ public class Main {
     }
 
 
-    public static void viewAllCars() {
+    //this method allows you to see the
+    //available cars to rent
+    public static void viewAvailableCars() {
         CarService carService = new CarService();
-        System.out.println(Arrays.toString(carService.seeAllCars()));
+        carService.getAvailableCars();
     }
 
+    //this method allows you to see all the user
+    //in the database
     public static void viewAllUsers() {
         UserService userService = new UserService();
-        System.out.println(Arrays.toString(userService.seeUsers()));
+        for(int i = 0; i < userService.seeUsers().length; i++){
+            System.out.println((userService.seeUsers()[i]));
+        }
+
+
     }
 
+    // with this method you can  if a user has a car booked
     public static void checkBookedCAr() {
         viewAllUsers();
 
@@ -99,8 +108,6 @@ public class Main {
         BookingService bookingService = new BookingService();
         Boolean empty = true;
 
-
-
         for (int i = 0; i < bookingService.getAllBookings().length; i++) {
              if (bookingService.getAllBookings()[i] != null &&
                      bookingService.getAllBookings()[i].getUser().getId().equals(id) ) {
@@ -110,10 +117,7 @@ public class Main {
                 break;
 
             }
-
-
         }
-
         if(empty ) {
 
             System.out.println("This user:" + userService.findUser(id) + " has no cars booked");
@@ -121,12 +125,14 @@ public class Main {
 
     }
 
+    // this method allows you to see all the bookings in the database
     public static void checkBookings() {
         BookingService bookingService = new BookingService();
         Boolean empty = true;
         for (int i = 0; i < bookingService.getAllBookings().length; i++) {
             if (bookingService.getAllBookings()[i] != null) {
                 System.out.println(bookingService.getAllBookings()[i]);
+                System.out.println();
                 empty = false;
             }
         }
@@ -142,7 +148,9 @@ public class Main {
         BookingService bookingService = new BookingService();
 
         System.out.println();
-        viewAllCars();
+        carService.getAvailableCars();
+
+
         System.out.println("▶ Select a registration number: ");
         String regNumber = scn2.nextLine();
         Car car = carService.findCar(regNumber);
@@ -167,7 +175,7 @@ public class Main {
                                       bookingService.generateBookingRef());
 
 
-
+           car.setAvailable(false);
         bookingService.addBookings(booking);
 
         System.out.println("🎉 Successfully booked a car 🚗 with reg number " +

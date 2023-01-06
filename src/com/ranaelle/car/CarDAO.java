@@ -13,7 +13,9 @@ public class CarDAO {
         };
 
     }
-    public Car[] getCars(){
+
+
+    public  Car[] getCars(){
         return cars;
     }
 }

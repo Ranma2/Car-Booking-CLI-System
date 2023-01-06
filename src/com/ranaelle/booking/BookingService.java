@@ -20,6 +20,8 @@ public class BookingService {
         return 1;
     }
 
+
+
     public String generateBookingRef(){
         Booking booking = new Booking();
 

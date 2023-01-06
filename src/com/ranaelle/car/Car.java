@@ -10,6 +10,8 @@ public class Car {
     private BigDecimal pricePerDay;
     private EngineType engineType;
 
+    private Boolean available = true;
+
     // no args constructor
     public Car() {
     }
@@ -60,6 +62,14 @@ public class Car {
     //setEngineType method sets car's engine type
     public void setEngineType(EngineType engineType) {
         this.engineType = engineType;
+    }
+
+    public Boolean getAvailable() {
+        return available;
+    }
+
+    public void setAvailable(Boolean available) {
+        this.available = available;
     }
 
     //toString method is used to output the car's attributes

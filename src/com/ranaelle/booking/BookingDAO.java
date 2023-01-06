@@ -2,7 +2,7 @@ package com.ranaelle.booking;
 
 public class BookingDAO {
     private static Booking[] bookings;
-    private int index = 0;
+    private static int index = 0;
     private static int CAPACITY = 3;
 
     static {
@@ -15,6 +15,7 @@ public class BookingDAO {
         }
             bookings[index] = booking;
             index++;
+
     }
     public void resize(int newCapacity){
         CAPACITY = newCapacity;
